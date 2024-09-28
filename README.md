@@ -61,10 +61,6 @@ Katkılarınızı bekliyoruz! Projeye katkıda bulunmak için lütfen bir pull r
 Proje hakkında sorularınız varsa veya destek almak istiyorsanız, iletişim bilgilerinizi buraya ekleyin. Geri dönüşlerinizi bekliyoruz!
 ```
 
-### Açıklamalar:
-1. **Başlık ve Açıklama**: Proje amacını ve genel özelliklerini daha net bir şekilde özetler.
-2. **Detaylandırma**: Özellikler ve çalışma prensibi bölümleri, kullanıcıların projeyi daha iyi anlamalarına yardımcı olacak şekilde detaylandırılmıştır.
-3. **Adım Adım Kurulum**: Kurulum talimatları daha düzenli bir formatta verilmiştir.
-4. **Katkıda Bulunma ve İletişim**: Kullanıcıları projeye katkıda bulunmaya teşvik eden ve iletişim bilgilerini eklemeyi öneren bölümler bulunmaktadır.
+Mail : ilyasdemir.demirilyas@gmail.com
 
 
