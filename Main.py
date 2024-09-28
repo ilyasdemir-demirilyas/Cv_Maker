@@ -150,7 +150,7 @@ def personal_info_section():
     name = st.text_input("İsim", personal_info.get('name', ''), key='personal_info_name_unique')
     email = st.text_input("E-posta", personal_info.get('email', ''), key='personal_info_email_unique')
     phone = st.text_input(
-        "Telefon (İsteğe Bağlı)",
+        "Telefon (Sıfır olmadan giriniz )",
         personal_info.get('phone', ''),
         key='personal_info_phone_unique',
         placeholder="xxxxxxxxxx",
@@ -798,11 +798,29 @@ def save_cv_as_word(markdown_content, filename):
             doc.add_paragraph(section)
     doc.save(filename)
 
+
+from docx import Document
+from docx.shared import Inches, Pt
+from docx.shared import RGBColor
+import os
+import pandas as pd
+
+import tempfile
+from PIL import Image  # Resim işleme için Pillow kütüphanesi
+
+
 def create_word_document():
     doc = Document()
+
     # Kişisel Bilgiler
     personal_info = load_personal_info()
-    doc.add_heading(personal_info['name'].upper(), level=2)
+
+    # Kişisel bilgilerin boş olup olmadığını kontrol et
+    if 'name' in personal_info and personal_info['name']:
+        doc.add_heading(personal_info['name'].upper(), level=2)
+    else:
+        doc.add_heading("Ad Bilgisi Eksik", level=2)  # Eğer isim yoksa başlık ekleyin
+
     # İki sütunlu tablo oluştur
     table = doc.add_table(rows=1, cols=2)
     table.autofit = False  # Otomatik boyutlandırmayı devre dışı bırak
@@ -811,11 +829,17 @@ def create_word_document():
     cell1 = table.cell(0, 0)
     cell1.width = Inches(4)  # Sol sütun genişliği
 
+    # E-posta kontrolü
+    if 'email' in personal_info and personal_info['email']:
+        cell1.add_paragraph(f"E-posta: {personal_info['email']}")
+    else:
+        cell1.add_paragraph("E-posta bilgisi eksik.")
 
-
-    cell1.add_paragraph(f"E-posta: {personal_info['email']}")
+    # Telefon kontrolü
     if personal_info.get('phone'):
         cell1.add_paragraph(f"Telefon: {personal_info['phone']}")
+    else:
+        cell1.add_paragraph("Telefon bilgisi eksik.")
 
     # Hesaplar
     df_accounts = load_data('accounts')
@@ -827,18 +851,25 @@ def create_word_document():
     cell2 = table.cell(0, 1)
     cell2.width = Inches(2)  # Sağ sütun genişliği
 
-    # Fotoğrafı ekle
     photo_path = None
-    if 'photo' in st.session_state:
-        photo_path = st.session_state['photo']  # Kullanıcıdan alınan fotoğraf
+
+    # Kullanıcıdan alınan fotoğraf
+    if 'photo' in st.session_state and isinstance(st.session_state['photo'], bytes):
+        # Geçici dosya oluştur ve fotoğrafı kaydet
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.png') as tmp_file:
+            tmp_file.write(st.session_state['photo'])
+            photo_path = tmp_file.name
+
     else:
         # Eğer kişisel bilgilerde fotoğraf yoksa dizinden ilk fotoğrafı al
-        directory = "cv_photo"  # Fotoğrafların saklandığı dizin
-        photo_path = get_first_photo_from_directory(directory)  # İlk fotoğraf yolunu al
+        directory = "cv_photo"
+        photo_path = get_first_photo_from_directory(directory)
 
-    # Fotoğraf dosyasını kontrol et ve ekle
-    if photo_path and os.path.exists(photo_path):  # Dosya varsa ekle
-        cell2.add_paragraph().add_run().add_picture(photo_path, width=Inches(1.5))  # Fotoğraf boyutunu ayarlayın
+        # Fotoğraf dosyasını kontrol et ve ekle
+    if photo_path and os.path.exists(photo_path):
+        cell2.add_paragraph().add_run().add_picture(photo_path, width=Inches(1.5))
+    else:
+        cell2.add_paragraph("Fotoğraf mevcut değil.")
 
     # Eğitim
     df_education = load_data('education')
@@ -846,7 +877,12 @@ def create_word_document():
         education = df_education.iloc[0]
         doc.add_heading("EĞİTİM", level=2)
         doc.add_paragraph(
-            f"{education['university']}, {education['faculty']} – {education['department']}, {education['start_year']} - {education['end_year']}")
+            f"{education.get('university', 'Üniversite bilgisi yok')}, "
+            f"{education.get('faculty', 'Fakülte bilgisi yok')} – "
+            f"{education.get('department', 'Bölüm bilgisi yok')}, "
+            f"{education.get('start_year', 'Başlangıç yılı yok')} - "
+            f"{education.get('end_year', 'Bitiş yılı yok')}"
+        )
 
     # Projeler
     df_projects = load_data('projects')
@@ -905,9 +941,6 @@ def create_word_document():
                 run.font.color.rgb = RGBColor(0, 0, 0)  # Siyah renk
 
     return doc
-
-
-
 
 
 # Streamlit uygulaması
@@ -982,8 +1015,10 @@ if selected != "CV Asistanı" :
                         proj.technologies) and proj.technologies else " "
                     if title_display != " ":
                         st.markdown(f"• **{title_display}**")
+
+
                     if proj.description != "":
-                        st.markdown(f"• **{proj.description}**")
+                        st.markdown(f" **{proj.description}**")
 
             # 4. Deneyim
             df_experience = load_data('experience')
