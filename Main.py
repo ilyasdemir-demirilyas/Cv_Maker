@@ -73,9 +73,12 @@ if os.path.isdir(DATA_DIR):
 # Fonksiyon: CSV dosyasını oluşturma (eğer yoksa)
 def initialize_csv(section):
     file_path = os.path.join(DATA_DIR, CSV_FILES[section])
+    # Dosya mevcut değilse, yeni bir DataFrame oluştur ve kaydet
     if not os.path.exists(file_path):
-        df = pd.DataFrame(columns=DEFAULT_COLUMNS[section])
-        df.to_csv(file_path, index=False)
+        # Klasörün var olup olmadığını kontrol et
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)  # Klasörü oluştur
+        df = pd.DataFrame()  # Boş bir DataFrame
+        df.to_csv(file_path, index=False)  # CSV'yi kaydet
 
 # Fonksiyon: CSV'den veriyi okuma (UTF-8 encoding kullanarak)
 def load_data(section):
