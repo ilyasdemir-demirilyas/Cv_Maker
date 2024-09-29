@@ -36,14 +36,39 @@ DEFAULT_COLUMNS = {
     'accounts': ['name', 'link']  # Default structure for 'accounts'
 }
 
+import os
+import streamlit as st
 
-# CSV dosyalarının bulunduğu klasör
-DATA_DIR = '.'  # Aynı dizinde
+import os
+import streamlit as st
 
-UPLOAD_FOLDER = 'cv_photo'  # Fotoğraflar için klasör
+DATA_DIR =""
+photo_folder_path = ""
+# Kullanıcıdan CSV dosyalarının bulunduğu klasör yolunu alıyoruz
+DATA_DIR = st.text_input(
+    "Lütfen bilgilerinizi içeren dosyaların bulunduğu veya kaydedilmesini istediğiniz klasör yolunu giriniz:",
+    key="data_folder_link"
+)
 
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
+# Eğer kullanıcı girişi yapmamışsa, bir uyarı ver
+if not DATA_DIR:
+    st.warning("Lütfen geçerli bir klasör yolu girin.")
+
+# Klasör yolunu doğrulamak için bir buton ekleyebilirsiniz
+if os.path.isdir(DATA_DIR):
+
+    UPLOAD_FOLDER = "cv_photo"
+    # DATA_DIR içinde UPLOAD_FOLDER'ı oluşturmak için tam yolu belirliyoruz
+    photo_folder_path = os.path.join(DATA_DIR, UPLOAD_FOLDER)
+
+    # Fotoğraf klasörünün var olup olmadığını kontrol edip, yoksa oluşturuyoruz
+    if not os.path.exists(photo_folder_path):
+        os.makedirs(photo_folder_path)
+        st.write(f"'{photo_folder_path}' klasörü oluşturuldu.")
+
+
+
+
 
 # Fonksiyon: CSV dosyasını oluşturma (eğer yoksa)
 def initialize_csv(section):
@@ -78,7 +103,8 @@ def save_personal_info(info):
 # Fonksiyon: Fotoğrafı kaydetme ve yolunu döndürme
 def save_photo(photo):
     file_name = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{photo.name}"
-    file_path = os.path.join(UPLOAD_FOLDER, file_name)
+    file_path = os.path.join(photo_folder_path, file_name)
+    st.write("yol ",file_path)
     with open(file_path, "wb") as f:
         f.write(photo.getbuffer())
     return file_path
@@ -134,7 +160,7 @@ def get_first_photo_from_directory(directory):
         else:
             return None
     except Exception as e:
-        st.error(f"Dizinden resim alma hatası: {e}")
+        pass
         return None
 
 # Bölümlere göre giriş formları
@@ -204,8 +230,7 @@ def personal_info_section():
         first_photo_path = get_first_photo_from_directory(directory)
         if first_photo_path:
             st.image(first_photo_path, width=150)
-        else:
-            st.write("Henüz bir fotoğraf yüklenmedi.")
+
 
     # Kaydet butonuna basıldığında yeni fotoğraf kaydedilir
     if st.button("Fotoğrafı Kaydet", key='save_photo_button_unique') and 'photo' in st.session_state:
@@ -757,23 +782,24 @@ def skills_section():
 
 
 
-# Bölüm seçimine göre ilgili fonksiyonu çağırma
-if selected == "Kişisel Bilgiler":
-    personal_info_section()
-elif selected == "Eğitim":
-    education_section()
-elif selected == "Projeler":
-    projects_section()
-elif selected == "Deneyim":
-    experience_section()
-elif selected == "Sertifikalar":
-    certifications_section()
-elif selected == "Aktiviteler":
-    activities_section()
-elif selected == "Beceriler":
-    skills_section()
-elif selected == "CV Asistanı":
-    run_cv_bot_app()
+if DATA_DIR !="":
+    # Bölüm seçimine göre ilgili fonksiyonu çağırma
+    if selected == "Kişisel Bilgiler":
+        personal_info_section()
+    elif selected == "Eğitim":
+        education_section()
+    elif selected == "Projeler":
+        projects_section()
+    elif selected == "Deneyim":
+        experience_section()
+    elif selected == "Sertifikalar":
+        certifications_section()
+    elif selected == "Aktiviteler":
+        activities_section()
+    elif selected == "Beceriler":
+        skills_section()
+    elif selected == "CV Asistanı":
+        run_cv_bot_app()
 
 
 
@@ -943,8 +969,9 @@ def create_word_document():
     return doc
 
 
+
 # Streamlit uygulaması
-if selected != "CV Asistanı" :
+if selected != "CV Asistanı" and DATA_DIR !="":
     # Sağ tarafta CV taslağı
     with st.container():
         col1, col2 = st.columns([4, 1])  # 4: başlık için, 1: buton için
@@ -1079,8 +1106,7 @@ if selected != "CV Asistanı" :
                 st.image(st.session_state['photo'], width=150)
             else:
                 # Eğer kişisel bilgilerde fotoğraf yoksa dizinden ilk fotoğrafı al
-                directory = "cv_photo"  # Fotoğrafların saklandığı dizin
-                first_photo_path = get_first_photo_from_directory(directory)
+                first_photo_path = get_first_photo_from_directory(photo_folder_path)
                 if first_photo_path:
                     st.image(first_photo_path, width=150)
                 else:
