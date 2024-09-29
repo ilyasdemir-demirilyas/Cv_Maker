@@ -37,30 +37,13 @@ DEFAULT_COLUMNS = {
 }
 
 
-DATA_DIR =""
-photo_folder_path = ""
-# Kullanıcıdan CSV dosyalarının bulunduğu klasör yolunu alıyoruz
-DATA_DIR = st.text_input(
-    "Lütfen bilgilerinizi içeren dosyaların bulunduğu veya kaydedilmesini istediğiniz klasör yolunu giriniz:",
-    key="data_folder_link"
-)
+# CSV dosyalarının bulunduğu klasör
+DATA_DIR = '.'  # Aynı dizinde
 
-# Eğer kullanıcı girişi yapmamışsa, bir uyarı ver
-if not DATA_DIR:
-    st.warning("Lütfen geçerli bir klasör yolu girin.")
+UPLOAD_FOLDER = 'cv_photo'  # Fotoğraflar için klasör
 
-# Klasör yolunu doğrulamak için bir buton ekleyebilirsiniz
-if os.path.isdir(DATA_DIR):
-
-    UPLOAD_FOLDER = "cv_photo"
-    # DATA_DIR içinde UPLOAD_FOLDER'ı oluşturmak için tam yolu belirliyoruz
-    photo_folder_path = os.path.join(DATA_DIR, UPLOAD_FOLDER)
-
-    # Fotoğraf klasörünün var olup olmadığını kontrol edip, yoksa oluşturuyoruz
-    if not os.path.exists(photo_folder_path):
-        os.makedirs(photo_folder_path)
-        st.write(f"'{photo_folder_path}' klasörü oluşturuldu.")
-        
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
 
 # Fonksiyon: CSV dosyasını oluşturma (eğer yoksa)
 def initialize_csv(section):
@@ -1102,5 +1085,3 @@ if selected != "CV Asistanı" :
                     st.image(first_photo_path, width=150)
                 else:
                     st.write("Henüz bir fotoğraf yüklenmedi.")
-
-
