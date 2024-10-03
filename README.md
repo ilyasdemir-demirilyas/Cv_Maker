@@ -23,7 +23,7 @@ Uygulama, aşağıdaki 7 bölümden oluşmaktadır:
 6. **Aktiviteler**: Katıldığınız etkinlikler ve rolleri.
 7. **Beceriler**: Sahip olduğunuz teknik ve sosyal beceriler.
 
-Bu bölümlerde gerekli bilgileri doldurarak CV'nizi oluşturabilir ve başvurularınız için bilgilerinizi saklayabilirsiniz. Girdiğiniz bilgiler, yerel veritabanında kaydedilir ve daha sonraki girişlerinizde otomatik olarak çekilir. Ayrıca, düzenleme ve silme seçenekleri ile bilgilerinizi güncelleyebilirsiniz.
+Bu bölümlerde gerekli bilgileri doldurarak CV'nizi oluşturabilir ve başvurularınız için bilgilerinizi saklayabilirsiniz. Girdiğiniz bilgiler, ilişkili veritabanında kaydedilir ve daha sonraki girişlerinizde otomatik olarak çekilir. Ayrıca, düzenleme ve silme seçenekleri ile bilgilerinizi güncelleyebilirsiniz.
 
 Siteyi tekrar ziyaret ettiğinizde, kaydettiğiniz bilgiler otomatik olarak getirilecek ve hangi özelliklerinizin CV'de yer almasını istediğinizi belirlemek için "CV'de Göster" kutucuğunu işaretleyerek ekleyebilir veya çıkarabilirsiniz.
 
