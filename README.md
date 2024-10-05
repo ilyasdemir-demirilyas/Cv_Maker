@@ -1,4 +1,4 @@
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)]([https://<your-custom-subdomain>.streamlit.app](https://cvmaker-fiw7t4gswd7a2hnxxpzm8p.streamlit.app/))
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://cvmaker-fiw7t4gswd7a2hnxxpzm8p.streamlit.app/)
 
 # CV Oluşturma Projesi
 
