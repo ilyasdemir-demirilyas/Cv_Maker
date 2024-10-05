@@ -60,7 +60,7 @@ Katkılarınızı bekliyoruz! Projeye katkıda bulunmak için lütfen bir pull r
 
 Proje hakkında sorularınız varsa veya destek almak istiyorsanız, iletişim bilgilerinizi buraya ekleyin. Geri dönüşlerinizi bekliyoruz!
 ```
-
 Mail : ilyasdemir.demirilyas@gmail.com
-
+```
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://<your-custom-subdomain>.streamlit.app)
 
