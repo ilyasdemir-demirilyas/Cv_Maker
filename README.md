@@ -1,3 +1,5 @@
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)]([https://<your-custom-subdomain>.streamlit.app](https://cvmaker-fiw7t4gswd7a2hnxxpzm8p.streamlit.app/))
+
 # CV Oluşturma Projesi
 
 Bu projenin amacı, sürekli farklı iş başvuruları için sahip olduğumuz çeşitli özellikleri ve gereksinimleri ön plana çıkarma veya diğerlerini arka planda bırakma sorununu çözmektir. Proje, kullanıcıların sahip olduğu tüm yetenekleri yazabileceği, depolayabileceği ve başvuru yapacağı işin konseptine göre bu yetenekleri seçip CV'lerine eklemelerini sağlar.
@@ -62,5 +64,5 @@ Proje hakkında sorularınız varsa veya destek almak istiyorsanız, iletişim b
 ```
 Mail : ilyasdemir.demirilyas@gmail.com
 ```
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://<your-custom-subdomain>.streamlit.app)
+
 
